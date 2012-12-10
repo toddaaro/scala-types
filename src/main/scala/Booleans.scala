@@ -3,30 +3,40 @@ package typestuff
 
 object Booleans {
 
-  trait Boolean
+  import Utils._
 
-  class True extends Boolean
+  trait Bool {
+    type And[B <: Bool] <: Bool
+    type Or[B <: Bool] <: Bool
+    type Not <: Bool
+    type If[IfTrue, IfFalse]
+    type If2[T, IfTrue <: T, IfFalse <: T] <: T
+  }
 
-  class False extends Boolean
+  class True extends Bool {
+    type And[B <: Bool] = B
+    type Or[B <: Bool] = True
+    type Not = False
+    type If[IfTrue, IfFalse] = IfTrue
+    type If2[T, IfTrue <: T, IfFalse <: T] = IfTrue
+  }
 
-  class BooleanEqual[A <: Boolean, B <: A] extends True
+  class False extends Bool {
+    type And[B <: Bool] = False
+    type Or[B <: Bool] = B
+    type Not = True
+    type If[IfTrue, IfFalse] = IfTrue
+    type If2[T, IfTrue <: T, IfFalse <: T] = IfFalse
+  }
 
-  class IfTrue[A <: True, B]
-    
-  type mt = True
-  type mf = False
-
-  type t0 = BooleanEqual[True, BooleanEqual[False,False]]
-
-  type t1 = IfTrue[t0, False]
+  type &&[A <: Bool, B <: Bool] = A#And[B]
+  type ||[A <: Bool, B <: Bool] = A#Or[B]
+  type Not[A <: Bool] = A#Not
   
-  type t2 = BooleanEqual[True, t0]
-
-  //type t3 = BooleanEqual[BooleanEqual[True,True], BooleanEqual[False,False]]
-
-  class Equals[A, B >: A <: A]
-  type ==[A, B >: A <: A] = Equals[A,B]
-
-  type t4 = Int == Int
+  val True = new True
+  val False = new False
+  
+  implicit val falseToBoolean = TypeToValue[False, Boolean](false)
+  implicit val trueToBoolean = TypeToValue[True, Boolean](true)
 
 }

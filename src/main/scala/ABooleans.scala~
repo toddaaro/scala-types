@@ -1,0 +1,18 @@
+
+package typestuff
+
+object ABooleans {
+
+  trait Bool {
+    type And[B <: Bool] <: Bool
+  }
+
+  class True extends Bool {
+    type And[B <: Bool] = B
+  }
+
+  class False extends Bool {
+    type And[B <: Bool] = False
+  }
+
+  type &&[A <: Bool, B <: Bool] = A#And[B]

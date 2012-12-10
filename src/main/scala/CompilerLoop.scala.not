@@ -28,7 +28,7 @@ object Numbers {
   type t0 = one == Suc[Zero]
 
   // type level trampoline is what allows recursion? maybe?
-/*
+
   trait Add {
     type Next <: Add
     type F[R <: Add] <: Nat
@@ -41,7 +41,7 @@ object Numbers {
   }
 
   type t1 = AddImpl[Zero, Zero]#F[AddImpl[Zero,Zero]#Next]
-*/
+
 /*
   trait Recur[T] {
     type Next <: Recur
