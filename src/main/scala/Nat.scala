@@ -26,6 +26,7 @@ object Nat {
     type Equals[N <: Nat] <: Bool
     type IsZero <: Bool
     type Accept[N <: NatVisitor] <: N#ResultType
+    type Pre <: Nat
   }
 
   final class Zero extends Nat {
